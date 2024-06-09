@@ -1,3 +1,4 @@
+#!/bin/usr/python3
 import sys
 
 from PyQt6.QtCore import QSize, Qt
