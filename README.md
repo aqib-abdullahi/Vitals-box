@@ -1,1 +1,1 @@
-# IoT-Health-Checker
+# IoT-Health-Checker Desktop App

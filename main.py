@@ -26,7 +26,7 @@ class MainWindow(QMainWindow):
 
         self.start_button = QPushButton("START")
         self.head_label = QLabel("IoT-health Checker")
-        self.subhead_label = QLabel("Welcome to the IoT-health checker app.\n"
+        self.subhead_label = QLabel("Welcome to the IoT-health checker app. \n"
                                "Click Start to Proceed")
         vbox = QVBoxLayout()
 
