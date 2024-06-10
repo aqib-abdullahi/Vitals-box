@@ -20,7 +20,8 @@ class DevicesWindow(QWidget):
         """initializes window"""
         super().__init__()
 
-        self.setWindowTitle("select a device")
+        # window specs
+        self.setWindowTitle("Select a device")
         self.setGeometry(0, 0, 600, 400)
         self.setMinimumWidth(400)
         self.setMinimumHeight(60)
@@ -29,32 +30,40 @@ class DevicesWindow(QWidget):
         layout = QVBoxLayout()
         self.setLayout(layout)
 
+        # styling dropdown label
         self.label = QLabel("Please select a device:")
-        self.label.setStyleSheet(" font-size: 17px; qproperty-alignment: AlignCenter; font-family: Helvetica;")
-        layout.addWidget(self.label)
+        self.label.setStyleSheet(" font-size: 17px; font-weight: bold; "
+                                 "qproperty-alignment: AlignCenter; font-family: Arial;")
 
-        #buttons
-        self.buttons = QHBoxLayout()
-        self.setLayout(self.buttons)
-        self.next_button = QPushButton("Next >")
-        self.back_button = QPushButton("< Back")
-        # self.buttons.addWidget(self.next_button,alignment=Qt.AlignmentFlag.AlignCenter)
+        # adds label to layout
+        layout.addWidget(self.label, alignment=Qt.AlignmentFlag.AlignCenter)
 
-        widget = QComboBox()
+        # dropdown list of devices
+        devices = QComboBox()
         # test device hardcode
-        widget.addItem('device 1')
-        widget.addItem('device 2')
-        widget.addItem('device 3')
+        devices.addItem('---')
+        devices.addItem('device 1')
+        devices.addItem('device 2')
 
-        # index of selected item
-        widget.currentIndexChanged.connect(self.index_changed)
-        # text of selected item
-        widget.currentTextChanged.connect(self.text_changed)
+        # combobox style (dropdown list styling)
+        devices.setStyleSheet(" font-size: 17px; font-weight: bold; "
+                             "qproperty-alignment: AlignCenter; font-family: Arial;")
 
-        layout.addWidget(widget)
+        # adds devices list to widget
+        layout.addWidget(devices, alignment=Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignTop)
+        devices.setFixedSize(500, 25)
 
-        layout.addWidget(self.back_button)
-        layout.addWidget(self.next_button)
+        #buttons (backward and forward)
+        nav_buttons = QHBoxLayout()
+        nav_buttons.addStretch(3)
+        next_button = QPushButton("Next >")
+        next_button.setStyleSheet(" font-size: 13px; font-weight: bold; "
+                           "qproperty-alignment: AlignLeft; font-family: Arial;")
+        nav_buttons.addWidget(next_button)
+        layout.addLayout(nav_buttons)
+
+        # forward button action
+        next_button.clicked.connect(self.next_window)
 
         # center
         center = QScreen.availableGeometry(QApplication.primaryScreen()).center()
@@ -62,6 +71,12 @@ class DevicesWindow(QWidget):
         geo.moveCenter(center)
         self.move(geo.topLeft())
 
+        # index of selected item
+        devices.currentIndexChanged.connect(self.index_changed)
+        # text of selected item
+        devices.currentTextChanged.connect(self.text_changed)
+
+        self.device_name = ""
 
     def index_changed(self, i):
         """i is an int"""
@@ -69,4 +84,14 @@ class DevicesWindow(QWidget):
 
     def text_changed(self, s):
         """s is a string"""
+        self.device_name = s
         print(s)
+
+    def next_window(self):
+        """shows name window when next is clicked
+        """
+        from app.ui.widgets.fullname import FullName
+        name_window = FullName()
+        if not name_window.isVisible():
+            self.hide()
+            name_window.show()
