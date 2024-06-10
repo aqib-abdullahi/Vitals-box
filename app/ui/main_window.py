@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 """Main Application window"""
 from ..utils.config import AppConfig
+from app.ui.widgets.devices_list import DevicesWindow
 from PyQt6.QtCore import QSize, Qt
-from PyQt6.QtGui import QAction, QFont, QColor, QPalette
-from PyQt6.QtWidgets import (QMainWindow,
+from PyQt6.QtGui import QAction, QFont, QColor, QPalette, QScreen
+from PyQt6.QtWidgets import (QApplication,
+                             QMainWindow,
                              QLabel,
                              QMenu,
                              QLineEdit,
@@ -20,23 +22,25 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
+        self.device_window = DevicesWindow()
+
         self.setWindowTitle(AppConfig.APP_NAME)
-        self.setGeometry(200, 200, 620, 410)
+        self.setGeometry(0, 0, 800, 600)
 
         self.start_button = QPushButton("START")
+        # start button action
+        self.start_button.clicked.connect(self.show_window)
+
         self.head_label = QLabel("IoT-health Checker")
-        self.subhead_label = QLabel("Welcome to the IoT-health checker app. \n"
+        self.subhead_label = QLabel("Welcome to the IoT-health checker app.\n"
                                "Click Start to Proceed")
         vbox = QVBoxLayout()
 
-        self.start_button.setFont(QFont('Arial', 17))
-        self.start_button.setStyleSheet(" font-size: 30px; qproperty-alignment: AlignCenter; font-family: Arial Black;")
+        self.start_button.setStyleSheet(" font-size: 20px; qproperty-alignment: AlignCenter; font-family: Arial Black;")
         self.start_button.setFixedSize(150, 60)
 
-        self.head_label.setFont(QFont('Arial', 20))
         self.head_label.setStyleSheet(" font-size: 40px; qproperty-alignment: AlignCenter; font-family: Arial Black;")
 
-        self.subhead_label.setFont(QFont('Arial', 16))
         self.subhead_label.setStyleSheet(" font-size: 20px; qproperty-alignment: AlignCenter; font-family: Arial Black;")
 
         vbox.addWidget(self.head_label)
@@ -51,3 +55,16 @@ class MainWindow(QMainWindow):
         widget.setLayout(vbox)
 
         self.setCentralWidget(widget)
+
+
+
+        # Center screen
+        center = QScreen.availableGeometry(QApplication.primaryScreen()).center()
+        geo = self.frameGeometry()
+        geo.moveCenter(center)
+        self.move(geo.topLeft())
+
+    def show_window(self) -> None:
+        """shows the device list window"""
+        if not self.device_window.isVisible():
+            self.device_window.show()
