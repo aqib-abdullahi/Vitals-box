@@ -1,11 +1,9 @@
-#!/bin/usr/python3
+#!/usr/bin/env python3
 """Main Application window"""
-import sys
-
+from ..utils.config import AppConfig
 from PyQt6.QtCore import QSize, Qt
 from PyQt6.QtGui import QAction, QFont, QColor, QPalette
-from PyQt6.QtWidgets import (QApplication,
-                             QMainWindow,
+from PyQt6.QtWidgets import (QMainWindow,
                              QLabel,
                              QMenu,
                              QLineEdit,
@@ -22,7 +20,7 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.setWindowTitle("IoT-Health Checker")
+        self.setWindowTitle(AppConfig.APP_NAME)
         self.setGeometry(200, 200, 620, 410)
 
         self.start_button = QPushButton("START")
@@ -53,10 +51,3 @@ class MainWindow(QMainWindow):
         widget.setLayout(vbox)
 
         self.setCentralWidget(widget)
-
-
-app = QApplication([])
-
-window = MainWindow()
-window.show()
-sys.exit(app.exec())
