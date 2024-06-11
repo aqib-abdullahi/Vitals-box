@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Main Application window"""
 from ..utils.config import AppConfig
-from app.ui.widgets.devices_list import DevicesWindow
 from PyQt6.QtCore import QSize, Qt
 from PyQt6.QtGui import QAction, QFont, QColor, QPalette, QScreen
 from PyQt6.QtWidgets import (QApplication,
@@ -22,17 +21,12 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        # devices list window
-        self.device_window = DevicesWindow()
-
         # window specs
         self.setWindowTitle(AppConfig.APP_NAME)
         self.setGeometry(0, 0, 800, 600)
 
         # start button
         self.start_button = QPushButton("START")
-        # start button action
-        self.start_button.clicked.connect(self.show_window)
 
         # Font styling
         self.head_label = QLabel("IoT-health Checker")
@@ -68,15 +62,22 @@ class MainWindow(QMainWindow):
         widget.setLayout(vbox)
         self.setCentralWidget(widget)
 
-
         # Center screen
         center = QScreen.availableGeometry(QApplication.primaryScreen()).center()
         geo = self.frameGeometry()
         geo.moveCenter(center)
         self.move(geo.topLeft())
 
-    def show_window(self) -> None:
-        """shows the device list window when start is clicked"""
-        if not self.device_window.isVisible():
-            self.hide()
-            self.device_window.show()
+        self.next_device_window = None
+
+    def set_device_next_window(self, next_device_window):
+        """sets the next window
+        """
+        self.next_device_window = next_device_window
+        self.start_button.clicked.connect(self.show_device_next_window)
+
+    def show_device_next_window(self):
+        """shows the devices as next window
+        """
+        self.hide()
+        self.next_device_window.show()

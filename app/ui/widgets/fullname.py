@@ -39,27 +39,24 @@ class FullName(QWidget):
         layout.addWidget(self.name, alignment=Qt.AlignmentFlag.AlignCenter)
 
         # buttons (backward and forward)
-        nav_buttons = QHBoxLayout()
-        nav_buttons.addStretch(3)
-        back_button = QPushButton("< Back")
-        next_button = QPushButton("Next >")
-        nav_buttons.addWidget(back_button)
-        nav_buttons.addWidget(next_button)
+        self.nav_buttons = QHBoxLayout()
+        self.nav_buttons.addStretch(3)
+        self.back_button = QPushButton("< Back")
+        self.next_button = QPushButton("Next >")
+        self.nav_buttons.addWidget(self.back_button)
+        self.nav_buttons.addWidget(self.next_button)
 
         #next button action
-        next_button.clicked.connect(self.text)
-        #back button action
-        back_button.clicked.connect(self.previous_window)
+        self.next_button.clicked.connect(self.text)
 
         # style buttons
-        next_button.setStyleSheet(" font-size: 13px; font-weight: bold; "
+        self.next_button.setStyleSheet(" font-size: 13px; font-weight: bold; "
                                   "qproperty-alignment: AlignLeft; font-family: Arial;")
-        back_button.setStyleSheet(" font-size: 13px; font-weight: bold; "
+        self.back_button.setStyleSheet(" font-size: 13px; font-weight: bold; "
                                   "qproperty-alignment: AlignLeft; font-family: Arial;")
 
         # adds button to layout
-        layout.addLayout(nav_buttons)
-
+        layout.addLayout(self.nav_buttons)
 
         # center window
         center = QScreen.availableGeometry(QApplication.primaryScreen()).center()
@@ -67,22 +64,19 @@ class FullName(QWidget):
         geo.moveCenter(center)
         self.move(geo.topLeft())
 
+        self.prev_window = None
+
     def text(self, s):
         """text from the text holder"""
         print(self.name.displayText())
 
-    def previous_window(self):
-        """shows name window when next is clicked
+    def set_device_previous_window(self, prev_window):
+        """set devices window
         """
-        if self.isVisible():
-            self.hide()
-            from app.ui.widgets.devices_list import DevicesWindow
-            prev_window = DevicesWindow()
-            prev_window.show()
+        self.prev_window = prev_window
+        self.back_button.clicked.connect(self.show_device_previous_window)
 
-    # def next_window(self):
-    #     """shows name window when next is clicked
-    #     """
-    #     if not self.name_window.isVisible():
-    #         self.hide()
-    #         self.name_window.show()
+    def show_device_previous_window(self):
+        """shows previous window"""
+        self.hide()
+        self.prev_window.show()

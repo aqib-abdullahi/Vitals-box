@@ -54,16 +54,14 @@ class DevicesWindow(QWidget):
         devices.setFixedSize(500, 25)
 
         #buttons (backward and forward)
-        nav_buttons = QHBoxLayout()
-        nav_buttons.addStretch(3)
-        next_button = QPushButton("Next >")
-        next_button.setStyleSheet(" font-size: 13px; font-weight: bold; "
+        self.nav_buttons = QHBoxLayout()
+        self.nav_buttons.addStretch(3)
+        self.next_button = QPushButton("Next >")
+        self.next_button.setStyleSheet(" font-size: 13px; font-weight: bold; "
                            "qproperty-alignment: AlignLeft; font-family: Arial;")
-        nav_buttons.addWidget(next_button)
-        layout.addLayout(nav_buttons)
+        self.nav_buttons.addWidget(self.next_button)
+        layout.addLayout(self.nav_buttons)
 
-        # forward button action
-        next_button.clicked.connect(self.next_window)
 
         # center
         center = QScreen.availableGeometry(QApplication.primaryScreen()).center()
@@ -78,6 +76,8 @@ class DevicesWindow(QWidget):
 
         self.device_name = ""
 
+        self.next_win = None
+
     def index_changed(self, i):
         """i is an int"""
         print(i)
@@ -87,11 +87,13 @@ class DevicesWindow(QWidget):
         self.device_name = s
         print(s)
 
-    def next_window(self):
-        """shows name window when next is clicked
+    def set_name_next_window(self, next_win):
+        """set name window when
         """
-        from app.ui.widgets.fullname import FullName
-        name_window = FullName()
-        if not name_window.isVisible():
-            self.hide()
-            name_window.show()
+        self.next_win = next_win
+        self.next_button.clicked.connect(self.show_name_next_window)
+
+    def show_name_next_window(self):
+        """shows the next window"""
+        self.hide()
+        self.next_win.show()
