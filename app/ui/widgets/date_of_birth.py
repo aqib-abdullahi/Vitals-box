@@ -61,3 +61,27 @@ class DateOfBirth(QWidget):
         geo = self.frameGeometry()
         geo.moveCenter(center)
         self.move(geo.topLeft())
+
+        self.prev_window = None
+        self.next_gender_window = None
+
+    def set_fullname_previous_window(self, prev_window):
+        """set devices window
+        """
+        self.prev_window = prev_window
+        self.back_button.clicked.connect(self.show_fullname_previous_window)
+
+    def show_fullname_previous_window(self):
+        """shows previous window"""
+        self.hide()
+        self.prev_window.show()
+
+    def set_gender_next_window(self, next_gender_window):
+        """sets the gender window"""
+        self.next_gender_window = next_gender_window
+        self.next_button.clicked.connect(self.show_gender_next_window)
+
+    def show_gender_next_window(self):
+        """show the date window as next"""
+        self.hide()
+        self.next_gender_window.show()
