@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Measurement Window"""
-from PyQt6.QtCore import Qt
+from app.ui.widgets.plot import GraphCanvas
 from PyQt6.QtGui import QFont, QScreen
 from PyQt6.QtWidgets import (QWidget,
                              QLineEdit,
@@ -10,7 +10,8 @@ from PyQt6.QtWidgets import (QWidget,
                              QLabel,
                              QApplication,
                              QPushButton,
-                             QFormLayout
+                             QFormLayout,
+                             QGroupBox,
                              )
 
 
@@ -21,14 +22,36 @@ class Measurement(QWidget):
         """initializes the window"""
         super().__init__()
 
-        self.setWindowTitle("Iot Health Checker")
-        self.setGeometry(0, 0, 600, 400)
+        self.setWindowTitle("IoT Health Checker")
+        self.setGeometry(0, 0, 1200, 800)
         self.setMinimumWidth(400)
         self.setMinimumHeight(60)
-        self.setMaximumSize(700, 400)
+        # self.setMaximumSize(700, 400)
 
         layout = QVBoxLayout()
         self.setLayout(layout)
+
+        hbox = QHBoxLayout()
+        layout.addLayout(hbox)
+        group_v = QGroupBox('graph')
+        group_h = QGroupBox('temp')
+        group_h.setMaximumWidth(400)
+        hbox.addWidget(group_v)
+        hbox.addWidget(group_h)
+
+        graph_layout = QVBoxLayout()
+        group_v.setLayout(graph_layout)
+
+        #top graph (dummy data)
+        self.canvas_one = GraphCanvas(self, width=4, height=3, dpi=100)
+        self.canvas_one.axes.plot([0,1,2,3,4], [10,1,20,3,40])
+
+        #bottom graph (dummy data)
+        self.canvas_two = GraphCanvas(self, width=4, height=3, dpi=100)
+        self.canvas_two.axes.plot([0, 1, 2, 3, 4], [10, 1, 20, 3, 40])
+
+        graph_layout.addWidget(self.canvas_one)
+        graph_layout.addWidget(self.canvas_two)
 
         #to be edited
         # buttons (backward and forward)
