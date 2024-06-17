@@ -1,15 +1,12 @@
 #!/usr/bin/env python3
 """Main Application window"""
 from ..utils.config import AppConfig
-from PyQt6.QtCore import QSize, Qt
-from PyQt6.QtGui import QAction, QFont, QColor, QPalette, QScreen
+from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QScreen
 from PyQt6.QtWidgets import (QApplication,
                              QMainWindow,
                              QLabel,
-                             QMenu,
-                             QLineEdit,
                              QWidget,
-                             QHBoxLayout,
                              QVBoxLayout,
                              QPushButton,
                              )

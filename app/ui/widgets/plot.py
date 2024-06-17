@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 """Plots with matplotlip"""
-import sys
 import matplotlib
-from PyQt6 import QtCore, QtWidgets
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
 from matplotlib.figure import Figure
 

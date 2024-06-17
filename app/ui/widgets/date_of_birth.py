@@ -1,16 +1,14 @@
 #!/usr/bin/env python3
 """Date of birth window"""
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QFont, QScreen
+from PyQt6.QtGui import QScreen
 from PyQt6.QtWidgets import (QWidget,
-                             QLineEdit,
                              QDateEdit,
-                             QComboBox,
                              QVBoxLayout,
                              QHBoxLayout,
-                             QLabel,
                              QApplication,
-                             QPushButton
+                             QPushButton,
+                             QFormLayout
                              )
 
 
@@ -37,7 +35,11 @@ class DateOfBirth(QWidget):
         self.date_picker.setStyleSheet(" font-size: 17px; font-weight: bold; "
                                        "qproperty-alignment: AlignLeft; font-family: Arial;")
 
-        layout.addWidget(self.date_picker, alignment=Qt.AlignmentFlag.AlignCenter)
+
+        self.form = QFormLayout()
+        self.form.addRow("Date of Birth:  ", self.date_picker)
+        self.form.setFormAlignment(Qt.AlignmentFlag.AlignCenter)
+        layout.addLayout(self.form)
 
         # buttons (backward and forward)
         self.nav_buttons = QHBoxLayout()

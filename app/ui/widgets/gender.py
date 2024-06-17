@@ -1,13 +1,11 @@
 #!/usr/bin/env python3
 """Gender option window"""
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QFont, QScreen
+from PyQt6.QtGui import QScreen
 from PyQt6.QtWidgets import (QWidget,
-                             QLineEdit,
                              QComboBox,
                              QVBoxLayout,
                              QHBoxLayout,
-                             QLabel,
                              QApplication,
                              QPushButton,
                              QFormLayout

@@ -1,15 +1,14 @@
 #!/usr/bin/env python3
 """full name window"""
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QFont, QScreen
+from PyQt6.QtGui import QScreen
 from PyQt6.QtWidgets import (QWidget,
                              QLineEdit,
-                             QComboBox,
                              QVBoxLayout,
                              QHBoxLayout,
-                             QLabel,
                              QApplication,
-                             QPushButton
+                             QPushButton,
+                             QFormLayout
                              )
 
 
@@ -29,14 +28,19 @@ class FullName(QWidget):
         layout = QVBoxLayout()
         self.setLayout(layout)
 
+        self.form = QFormLayout()
+
         self.name = QLineEdit()
-        self.name.setPlaceholderText("Fullname")
-        self.name.setStyleSheet(" font-size: 17px; font-weight: bold; "
+        self.name.setPlaceholderText("Enter full name")
+        self.name.setStyleSheet(" font-size: 14px; font-weight: bold; "
                               "qproperty-alignment: AlignLeft; font-family: Arial;")
-        self.name.setFixedSize(370, 40)
+        self.name.setFixedSize(360, 30)
+
+        self.form.addRow("Full name:  ", self.name)
 
         # adds name edit to layout
-        layout.addWidget(self.name, alignment=Qt.AlignmentFlag.AlignCenter)
+        self.form.setFormAlignment(Qt.AlignmentFlag.AlignCenter)
+        layout.addLayout(self.form)
 
         # buttons (backward and forward)
         self.nav_buttons = QHBoxLayout()

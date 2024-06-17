@@ -1,17 +1,13 @@
 #!/usr/bin/env python3
 """Measurement Window"""
 from app.ui.widgets.plot import GraphCanvas
-from PyQt6.QtGui import QFont, QScreen
+from PyQt6.QtGui import QScreen
 from PyQt6.QtWidgets import (QWidget,
-                             QLineEdit,
-                             QSpinBox,
                              QVBoxLayout,
                              QHBoxLayout,
-                             QLabel,
                              QApplication,
                              QPushButton,
-                             QFormLayout,
-                             QGroupBox,
+                             QGroupBox
                              )
 
 

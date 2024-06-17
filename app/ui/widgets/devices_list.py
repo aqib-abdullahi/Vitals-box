@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """combo box of devices list"""
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QFont, QScreen
+from PyQt6.QtGui import QScreen
 from PyQt6.QtWidgets import (QWidget,
                              QComboBox,
                              QVBoxLayout,
