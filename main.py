@@ -11,35 +11,40 @@ from app.ui.widgets.information import Information
 from app.ui.widgets.measurement import Measurement
 
 
-def run() -> int:
-    """runs app entry point"""
-    app = QApplication([])
-    main_window = MainWindow()
-    device_window = DevicesWindow()
-    fullname_window = FullName()
-    date_of_birth_window = DateOfBirth()
-    gender_window = Gender()
-    weight_window = Weight()
-    information_window = Information()
-    measurement_window = Measurement()
+class Initializer:
+    """Instantiates all windows"""
+    def __init__(self):
+        """initializes windows"""
+        self.app = QApplication([])
+        self.main_window = MainWindow()
+        self.device_window = DevicesWindow()
+        self.fullname_window = FullName()
+        self.date_of_birth_window = DateOfBirth()
+        self.gender_window = Gender()
+        self.weight_window = Weight()
+        self.information_window = Information()
+        self.measurement_window = Measurement()
 
-    main_window.set_device_next_window(device_window)
-    device_window.set_name_next_window(fullname_window)
-    fullname_window.set_device_previous_window(device_window)
-    fullname_window.set_date_next_window(date_of_birth_window)
-    date_of_birth_window.set_fullname_previous_window(fullname_window)
-    date_of_birth_window.set_gender_next_window(gender_window)
-    gender_window.set_date_previous_window(date_of_birth_window)
-    gender_window.set_weight_next_window(weight_window)
-    weight_window.set_gender_previous_window(gender_window)
-    weight_window.set_information_next_window(information_window)
-    information_window.set_weight_previous_window(weight_window)
-    information_window.set_measurement_next_window(measurement_window)
+    def run(self) -> int:
+        """runs app entry point"""
+        self.main_window.set_device_next_window(self.device_window)
+        self.device_window.set_name_next_window(self.fullname_window)
+        self.fullname_window.set_device_previous_window(self.device_window)
+        self.fullname_window.set_date_next_window(self.date_of_birth_window, self.information_window)
+        self.date_of_birth_window.set_fullname_previous_window(self.fullname_window)
+        self.date_of_birth_window.set_gender_next_window(self.gender_window, self.information_window)
+        self.gender_window.set_date_previous_window(self.date_of_birth_window)
+        self.gender_window.set_weight_next_window(self.weight_window, self.information_window)
+        self.weight_window.set_gender_previous_window(self.gender_window)
+        self.weight_window.set_information_next_window(self.information_window, self.information_window)
+        self.information_window.set_weight_previous_window(self.weight_window)
+        self.information_window.set_measurement_next_window(self.measurement_window)
 
-    main_window.show()
-    return sys.exit(app.exec())
+        self.main_window.show()
+        return sys.exit(self.app.exec())
 
 
 if __name__ == '__main__':
     import sys
-    sys.exit(run())
+    start = Initializer()
+    sys.exit(start.run())

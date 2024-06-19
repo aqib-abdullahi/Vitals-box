@@ -29,37 +29,41 @@ class Information(QWidget):
         self.setLayout(layout)
 
         self.form = QFormLayout()
-        name = QLineEdit()
-        name.setEnabled(False)
-        date_of_birth = QLineEdit()
-        date_of_birth.setEnabled(False)
-        gender = QLineEdit()
-        gender.setEnabled(False)
-        weight = QLineEdit()
-        weight.setEnabled(False)
+
+        self.name = QLineEdit()
+        self.name.setEnabled(False)
+
+        self.date_of_birth = QLineEdit()
+        self.date_of_birth.setEnabled(False)
+
+        self.gender = QLineEdit()
+        self.gender.setEnabled(False)
+
+        self.weight = QLineEdit()
+        self.weight.setEnabled(False)
 
         # form style (dropdown list styling)
-        name.setStyleSheet(" font-size: 12px; font-weight: bold; "
+        self.name.setStyleSheet(" font-size: 12px; font-weight: bold; "
                               "qproperty-alignment: AlignCenter; font-family: Arial;")
-        name.setFixedSize(250,25)
+        self.name.setFixedSize(250,25)
 
-        date_of_birth.setStyleSheet(" font-size: 12px; font-weight: bold; "
+        self.date_of_birth.setStyleSheet(" font-size: 12px; font-weight: bold; "
                            "qproperty-alignment: AlignCenter; font-family: Arial;")
-        date_of_birth.setFixedSize(250, 25)
+        self.date_of_birth.setFixedSize(250, 25)
 
-        gender.setStyleSheet(" font-size: 12px; font-weight: bold; "
+        self.gender.setStyleSheet(" font-size: 12px; font-weight: bold; "
                            "qproperty-alignment: AlignCenter; font-family: Arial;")
-        gender.setFixedSize(250, 25)
+        self.gender.setFixedSize(250, 25)
 
-        weight.setStyleSheet(" font-size: 12px; font-weight: bold; "
+        self.weight.setStyleSheet(" font-size: 12px; font-weight: bold; "
                            "qproperty-alignment: AlignCenter; font-family: Arial;")
-        weight.setFixedSize(250, 25)
+        self.weight.setFixedSize(250, 25)
 
 
-        self.form.addRow("Name:   ", name)
-        self.form.addRow("Date of birth:   ", date_of_birth)
-        self.form.addRow("Gender:   ", gender)
-        self.form.addRow("Weight:   ", weight)
+        self.form.addRow("Name:   ", self.name)
+        self.form.addRow("Date of birth:   ", self.date_of_birth)
+        self.form.addRow("Gender:   ", self.gender)
+        self.form.addRow("Weight:   ", self.weight)
         self.form.setFormAlignment(Qt.AlignmentFlag.AlignCenter)
 
         # adds name edit to layout
@@ -111,3 +115,19 @@ class Information(QWidget):
         """show the date window as next"""
         self.hide()
         self.next_measurement_window.show()
+
+    def update_name(self, name):
+        """update name space"""
+        self.name.setText(name)
+
+    def update_dob(self, date_of_birth):
+        """update date of birth space"""
+        self.date_of_birth.setText(date_of_birth)
+
+    def update_gender(self, gender):
+        """update gender space"""
+        self.gender.setText(gender)
+
+    def update_weight(self, weight):
+        """update weight space"""
+        self.weight.setText(weight)

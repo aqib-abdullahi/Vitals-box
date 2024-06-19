@@ -30,18 +30,18 @@ class Gender(QWidget):
 
         self.form = QFormLayout()
         # dropdown list of gender
-        gender = QComboBox()
+        self.gender = QComboBox()
         # test  genders
-        gender.addItem('---')
-        gender.addItem('Male')
-        gender.addItem('Female')
+        self.gender.addItem('---')
+        self.gender.addItem('Male')
+        self.gender.addItem('Female')
 
         # combobox style (dropdown list styling)
-        gender.setStyleSheet(" font-size: 17px; font-weight: bold; "
+        self.gender.setStyleSheet(" font-size: 17px; font-weight: bold; "
                               "qproperty-alignment: AlignCenter; font-family: Arial;")
-        gender.setFixedSize(150,20)
+        self.gender.setFixedSize(150,20)
 
-        self.form.addRow("Gender:   ", gender)
+        self.form.addRow("Gender:   ", self.gender)
         self.form.setFormAlignment(Qt.AlignmentFlag.AlignCenter)
 
         # adds name edit to layout
@@ -70,8 +70,17 @@ class Gender(QWidget):
         geo.moveCenter(center)
         self.move(geo.topLeft())
 
+        self.gender_input = None
         self.prev_window = None
         self.next_weight_window = None
+        self.last_information_window = None
+
+    def user_gender(self):
+        """holds users gender and print"""
+        self.gender_input = self.gender.currentText()
+        print("Gender: ", self.gender_input)
+        return self.gender_input
+
 
     def set_date_previous_window(self, prev_window):
         """set devices window
@@ -84,12 +93,14 @@ class Gender(QWidget):
         self.hide()
         self.prev_window.show()
 
-    def set_weight_next_window(self, next_weight_window):
+    def set_weight_next_window(self, next_weight_window, last_information_window):
         """sets the gender window"""
         self.next_weight_window = next_weight_window
+        self.last_information_window = last_information_window
         self.next_button.clicked.connect(self.show_weight_next_window)
 
     def show_weight_next_window(self):
         """show the date window as next"""
         self.hide()
+        self.last_information_window.update_gender(self.user_gender())
         self.next_weight_window.show()

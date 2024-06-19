@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """full name window"""
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtGui import QScreen
 from PyQt6.QtWidgets import (QWidget,
                              QLineEdit,
@@ -65,12 +65,16 @@ class FullName(QWidget):
         geo.moveCenter(center)
         self.move(geo.topLeft())
 
+        self.name_input = None
         self.prev_window = None
         self.next_date_window = None
+        self.last_information_window = None
 
-    def text(self, s):
+    def name_text(self):
         """text from the text holder"""
-        print(self.name.displayText())
+        self.name_input = self.name.displayText()
+        print("Fullname: ", self.name_input)
+        return self.name_input
 
     def set_device_previous_window(self, prev_window):
         """set devices window
@@ -83,12 +87,14 @@ class FullName(QWidget):
         self.hide()
         self.prev_window.show()
 
-    def set_date_next_window(self, next_date_window):
+    def set_date_next_window(self, next_date_window, last_information_window):
         """sets the date window"""
         self.next_date_window = next_date_window
+        self.last_information_window = last_information_window
         self.next_button.clicked.connect(self.show_date_next_window)
 
     def show_date_next_window(self):
         """show the date window as next"""
+        self.last_information_window.update_name(self.name_text())
         self.hide()
         self.next_date_window.show()

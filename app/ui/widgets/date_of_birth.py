@@ -35,7 +35,6 @@ class DateOfBirth(QWidget):
         self.date_picker.setStyleSheet(" font-size: 17px; font-weight: bold; "
                                        "qproperty-alignment: AlignLeft; font-family: Arial;")
 
-
         self.form = QFormLayout()
         self.form.addRow("Date of Birth:  ", self.date_picker)
         self.form.setFormAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -64,8 +63,16 @@ class DateOfBirth(QWidget):
         geo.moveCenter(center)
         self.move(geo.topLeft())
 
+        self.date_input = None
         self.prev_window = None
         self.next_gender_window = None
+        self.last_information_window = None
+
+    def date_changed(self):
+        """date input changed"""
+        self.date_input = str(self.date_picker.date().toPyDate().strftime("%d/%m/%Y"))
+        print("Date of birth: ", self.date_input)
+        return self.date_input
 
     def set_fullname_previous_window(self, prev_window):
         """set devices window
@@ -78,12 +85,14 @@ class DateOfBirth(QWidget):
         self.hide()
         self.prev_window.show()
 
-    def set_gender_next_window(self, next_gender_window):
+    def set_gender_next_window(self, next_gender_window, last_information_window):
         """sets the gender window"""
         self.next_gender_window = next_gender_window
+        self.last_information_window = last_information_window
         self.next_button.clicked.connect(self.show_gender_next_window)
 
     def show_gender_next_window(self):
         """show the date window as next"""
         self.hide()
+        self.last_information_window.update_dob(self.date_changed())
         self.next_gender_window.show()

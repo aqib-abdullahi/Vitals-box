@@ -39,19 +39,19 @@ class DevicesWindow(QWidget):
         layout.addWidget(self.label, alignment=Qt.AlignmentFlag.AlignCenter)
 
         # dropdown list of devices
-        devices = QComboBox()
+        self.devices = QComboBox()
         # test device hardcode
-        devices.addItem('---')
-        devices.addItem('device 1')
-        devices.addItem('device 2')
+        self.devices.addItem('---')
+        self.devices.addItem('device 1')
+        self.devices.addItem('device 2')
 
         # combobox style (dropdown list styling)
-        devices.setStyleSheet(" font-size: 17px; font-weight: bold; "
+        self.devices.setStyleSheet(" font-size: 17px; font-weight: bold; "
                              "qproperty-alignment: AlignCenter; font-family: Arial;")
 
         # adds devices list to widget
-        layout.addWidget(devices, alignment=Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignTop)
-        devices.setFixedSize(500, 25)
+        layout.addWidget(self.devices, alignment=Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignTop)
+        self.devices.setFixedSize(500, 25)
 
         #buttons (backward and forward)
         self.nav_buttons = QHBoxLayout()
@@ -69,23 +69,17 @@ class DevicesWindow(QWidget):
         geo.moveCenter(center)
         self.move(geo.topLeft())
 
-        # index of selected item
-        devices.currentIndexChanged.connect(self.index_changed)
-        # text of selected item
-        devices.currentTextChanged.connect(self.text_changed)
-
         self.device_name = ""
-
         self.next_win = None
 
-    def index_changed(self, i):
+    def index_changed(self):
         """i is an int"""
-        print(i)
+        print("Device index: ", self.devices.currentIndex())
 
-    def text_changed(self, s):
+    def text_changed(self):
         """s is a string"""
-        self.device_name = s
-        print(s)
+        print("Device name: ",self.devices.currentText())
+        self.device_name = self.devices.currentText()
 
     def set_name_next_window(self, next_win):
         """set name window when
@@ -97,3 +91,5 @@ class DevicesWindow(QWidget):
         """shows the next window"""
         self.hide()
         self.next_win.show()
+        self.index_changed()
+        self.text_changed()

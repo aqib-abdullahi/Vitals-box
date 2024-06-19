@@ -30,14 +30,14 @@ class Weight(QWidget):
 
         self.form = QFormLayout()
         # dropdown list of gender
-        weight = QSpinBox(minimum=1, maximum=500, suffix='  Kg')
+        self.weight = QSpinBox(minimum=1, maximum=500, suffix='  Kg')
 
         # Spinbox style (dropdown list styling)
-        weight.setStyleSheet(" font-size: 12px; font-weight: bold; "
+        self.weight.setStyleSheet(" font-size: 12px; font-weight: bold; "
                               "qproperty-alignment: AlignCenter; font-family: Arial;")
-        weight.setFixedSize(150,20)
+        self.weight.setFixedSize(150,20)
 
-        self.form.addRow("Weight:   ", weight)
+        self.form.addRow("Weight:   ", self.weight)
         self.form.setFormAlignment(Qt.AlignmentFlag.AlignCenter)
 
         # adds name edit to layout
@@ -66,8 +66,16 @@ class Weight(QWidget):
         geo.moveCenter(center)
         self.move(geo.topLeft())
 
+        self.user_weight = None
         self.prev_window = None
         self.next_information_window = None
+        self.last_information_window  = None
+
+    def user_weight_input(self):
+        """holds and print user's input"""
+        self.user_weight = self.weight.text()
+        print("Weight: ", self.user_weight)
+        return self.user_weight
 
     def set_gender_previous_window(self, prev_window):
         """set devices window
@@ -80,12 +88,14 @@ class Weight(QWidget):
         self.hide()
         self.prev_window.show()
 
-    def set_information_next_window(self, next_information_window):
+    def set_information_next_window(self, next_information_window, last_information_window):
         """sets the gender window"""
         self.next_information_window = next_information_window
+        self.last_information_window = last_information_window
         self.next_button.clicked.connect(self.show_information_next_window)
 
     def show_information_next_window(self):
         """show the date window as next"""
         self.hide()
+        self.last_information_window.update_weight(self.user_weight_input())
         self.next_information_window.show()
