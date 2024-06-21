@@ -7,7 +7,7 @@ from PyQt6.QtWidgets import (QWidget,
                              QHBoxLayout,
                              QApplication,
                              QPushButton,
-                             QGroupBox
+                             QGroupBox,
                              )
 
 
@@ -22,10 +22,10 @@ class Measurement(QWidget):
         self.setGeometry(0, 0, 1200, 800)
         self.setMinimumWidth(400)
         self.setMinimumHeight(60)
-        # self.setMaximumSize(700, 400)
 
         layout = QVBoxLayout()
         self.setLayout(layout)
+
 
         hbox = QHBoxLayout()
         layout.addLayout(hbox)
