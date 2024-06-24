@@ -80,6 +80,7 @@ class Information(QWidget):
         # style buttons
         self.next_button.setStyleSheet(" font-size: 13px; font-weight: bold; "
                                   "qproperty-alignment: AlignLeft; font-family: Arial;")
+        self.next_button.setFixedWidth(180)
         self.back_button.setStyleSheet(" font-size: 13px; font-weight: bold; "
                                   "qproperty-alignment: AlignLeft; font-family: Arial;")
 
