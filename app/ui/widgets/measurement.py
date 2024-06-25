@@ -44,6 +44,10 @@ class Measurement(QWidget):
         second_group_h = QGroupBox('Temperature Bar')
         temp_layout.addWidget(second_group_h)
 
+        # summary section
+        summary = QGroupBox('Summary')
+        temp_layout.addWidget(summary)
+
         #top graph (dummy data)
         self.canvas_one = GraphCanvas(self, width=4, height=3, dpi=100)
         # self.canvas_one.axes.plot([0,1,2,3,4], [10,1,20,3,40])
@@ -99,9 +103,14 @@ class Measurement(QWidget):
         self.timer = QtCore.QTimer()
         self.timer.setInterval(100)
         self.timer.timeout.connect(self.update_graph_plot)
+        self.timer.timeout.connect(self.update_bar_chart)
         self.timer.start()
 
+        #dummy
+        self.temperature = 0
+
     def update_graph_plot(self):
+        """updates the graph motion"""
         self.ydata = self.ydata[1:] + [random.randint(0, 10)]
         self.canvas_one.axes.cla()  # Clear the canvas.
         self.canvas_one.axes.plot(self.xdata, self.ydata, 'r')
@@ -114,6 +123,12 @@ class Measurement(QWidget):
         # self.canvas_two.axes.plot(self.xdata, self.ydata, 'r')
         # self.canvas_two.axes.grid(True)
         # self.canvas_two.draw()
+
+    def update_bar_chart(self):
+        """updates the temperature bar"""
+        new_value = random.uniform(-1.0, 1.0)
+        self.temperature += new_value
+        self.temp_canvas.update_height(self.temperature)
 
     def end_measurement(self):
         """ends app"""

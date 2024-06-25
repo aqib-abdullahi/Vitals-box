@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 """Plots with matplotlip"""
 import matplotlib
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
@@ -23,7 +23,7 @@ pyplot.rcParams.update({
     "savefig.edgecolor": "black"})
 
 class GraphCanvas(FigureCanvasQTAgg):
-    """Plot canvas"""
+    """graph canvas"""
     def __init__(self, parent=None, width=None, height=None, dpi=None):
         """initializes canvas"""
         fig = Figure(figsize=(width, height), dpi=dpi)
@@ -34,14 +34,31 @@ class GraphCanvas(FigureCanvasQTAgg):
         self.axes.grid(True)
 
 class TempCanvas(FigureCanvasQTAgg):
-    """Temperature bar plotting"""
+    """Temperature bar canvas"""
     def __init__(self, parent=None, width=None, height=None, dpi=None):
         """initializes class"""
-        self.fig = Figure(figsize=(width, height), dpi=dpi)
-        self.axes = self.fig.add_subplot(111)
-        self.fig.subplots_adjust(left=0.3, right=0.7, top=0.95, bottom=0.05)
-        super().__init__(self.fig)
-        # Initial bar plot
-        self.bar = self.axes.bar([0], [70], width=2, color="cyan")[0]
+        fig = Figure(figsize=(width, height), dpi=dpi)
+        fig.set_facecolor('lightgray')
+        self.axes = fig.add_subplot(111)
+        fig.subplots_adjust(left=0.3, right=0.7, top=0.95, bottom=0.05)
+
+        super().__init__(fig)
+        self.bar = None
+        self.initial_height()
         self.axes.set_xlim(0, 1)
         self.axes.set_ylim(0, 80)
+        self.axes.xaxis.set_visible(False)
+        self.axes.tick_params(axis='y', colors='black')
+        # print(dir(self.bar))
+
+    # Initial bar plot
+    def initial_height(self):
+        """initial temp bar height"""
+        self.bar = self.axes.bar([0], [0], width=2, color="cyan")[0]
+
+    def update_height(self, value):
+        """updates temp bar height"""
+        new_temperature = abs(value)
+        print(new_temperature)
+        self.bar.set_height(new_temperature)
+        self.draw()
