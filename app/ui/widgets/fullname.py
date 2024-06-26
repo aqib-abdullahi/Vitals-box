@@ -84,7 +84,7 @@ class FullName(QWidget):
 
     def show_device_previous_window(self):
         """shows previous window"""
-        self.hide()
+        self.close()
         self.prev_window.show()
 
     def set_date_next_window(self, next_date_window, last_information_window):
@@ -96,5 +96,5 @@ class FullName(QWidget):
     def show_date_next_window(self):
         """show the date window as next"""
         self.last_information_window.update_name(self.name_text())
-        self.hide()
+        self.close()
         self.next_date_window.show()

@@ -82,7 +82,7 @@ class DateOfBirth(QWidget):
 
     def show_fullname_previous_window(self):
         """shows previous window"""
-        self.hide()
+        self.close()
         self.prev_window.show()
 
     def set_gender_next_window(self, next_gender_window, last_information_window):
@@ -93,6 +93,6 @@ class DateOfBirth(QWidget):
 
     def show_gender_next_window(self):
         """show the date window as next"""
-        self.hide()
+        self.close()
         self.last_information_window.update_dob(self.date_changed())
         self.next_gender_window.show()

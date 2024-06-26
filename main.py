@@ -23,7 +23,6 @@ class Initializer:
         self.gender_window = Gender()
         self.weight_window = Weight()
         self.information_window = Information()
-        self.measurement_window = Measurement()
 
     def run(self) -> int:
         """runs app entry point"""
@@ -38,7 +37,6 @@ class Initializer:
         self.weight_window.set_gender_previous_window(self.gender_window)
         self.weight_window.set_information_next_window(self.information_window, self.information_window)
         self.information_window.set_weight_previous_window(self.weight_window)
-        self.information_window.set_measurement_next_window(self.measurement_window)
 
         self.main_window.show()
         return sys.exit(self.app.exec())

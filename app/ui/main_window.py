@@ -76,5 +76,5 @@ class MainWindow(QMainWindow):
     def show_device_next_window(self):
         """shows the devices as next window
         """
-        self.hide()
+        self.destroy()
         self.next_device_window.show()

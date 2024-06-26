@@ -90,7 +90,7 @@ class Gender(QWidget):
 
     def show_dob_previous_window(self):
         """shows previous window"""
-        self.hide()
+        self.close()
         self.prev_window.show()
 
     def set_weight_next_window(self, next_weight_window, last_information_window):
@@ -101,6 +101,6 @@ class Gender(QWidget):
 
     def show_weight_next_window(self):
         """show the date window as next"""
-        self.hide()
+        self.close()
         self.last_information_window.update_gender(self.user_gender())
         self.next_weight_window.show()

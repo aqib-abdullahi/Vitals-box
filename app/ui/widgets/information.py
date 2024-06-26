@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Entire information window"""
+from app.ui.widgets import summary
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QScreen
 from PyQt6.QtWidgets import (QWidget,
@@ -12,13 +13,26 @@ from PyQt6.QtWidgets import (QWidget,
                              )
 
 
+summary_fullname = None
+summary_dob = None
+summary_gender = None
+summary_weight = None
+
+from .measurement import Measurement
+class NextWindow(Measurement):
+    """measurement window"""
+    def __init__(self):
+        """starts"""
+        super(NextWindow, self).__init__(Measurement)
+        # from .measurement import Measurement
+        # win = Measurement
+
 class Information(QWidget):
     """weight option to set
     """
     def __init__(self):
         """initializes the window"""
         super().__init__()
-
         self.setWindowTitle("Information")
         self.setGeometry(0, 0, 600, 400)
         self.setMinimumWidth(400)
@@ -61,9 +75,21 @@ class Information(QWidget):
 
 
         self.form.addRow("Name:   ", self.name)
+        global summary_fullname
+        summary_fullname = self.name
+        summary.fullname = summary_fullname
         self.form.addRow("Date of birth:   ", self.date_of_birth)
+        global summary_dob
+        summary_dob = self.date_of_birth
+        summary.dob = summary_dob
         self.form.addRow("Gender:   ", self.gender)
+        global summary_gender
+        summary_gender = self.gender
+        summary.gender = summary_gender
         self.form.addRow("Weight:   ", self.weight)
+        global summary_weight
+        summary_weight = self.weight
+        summary.weight = summary_weight
         self.form.setFormAlignment(Qt.AlignmentFlag.AlignCenter)
 
         # adds name edit to layout
@@ -84,6 +110,8 @@ class Information(QWidget):
         self.back_button.setStyleSheet(" font-size: 13px; font-weight: bold; "
                                   "qproperty-alignment: AlignLeft; font-family: Arial;")
 
+        self.next_button.clicked.connect(self.show_measurement_next_window)
+
         # adds button to layout
         layout.addLayout(self.nav_buttons)
 
@@ -95,6 +123,7 @@ class Information(QWidget):
 
         self.prev_window = None
         self.next_measurement_window = None
+        self.window = None
 
     def set_weight_previous_window(self, prev_window):
         """set devices window
@@ -104,18 +133,19 @@ class Information(QWidget):
 
     def show_weight_previous_window(self):
         """shows previous window"""
-        self.hide()
+        self.close()
         self.prev_window.show()
 
-    def set_measurement_next_window(self, next_measurement_window):
+    def set_measurement_next_window(self):
         """sets the gender window"""
-        self.next_measurement_window = next_measurement_window
         self.next_button.clicked.connect(self.show_measurement_next_window)
 
     def show_measurement_next_window(self):
         """show the date window as next"""
-        self.hide()
-        self.next_measurement_window.show()
+        self.window = Measurement()
+        self.window.show()
+        self.window.timer.start()
+        self.close()
 
     def update_name(self, name):
         """update name space"""

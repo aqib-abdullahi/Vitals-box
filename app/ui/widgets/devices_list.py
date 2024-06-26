@@ -89,7 +89,7 @@ class DevicesWindow(QWidget):
 
     def show_name_next_window(self):
         """shows the next window"""
-        self.hide()
+        self.close()
         self.next_win.show()
         self.index_changed()
         self.text_changed()

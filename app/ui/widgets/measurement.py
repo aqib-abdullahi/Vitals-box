@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """Measurement Window"""
+import sys
 import random
 from PyQt6 import QtCore
+from app.ui.widgets import summary
 from app.ui.widgets.plot import GraphCanvas, TempCanvas
 from PyQt6.QtGui import QScreen
 from PyQt6.QtWidgets import (QWidget,
@@ -10,6 +12,8 @@ from PyQt6.QtWidgets import (QWidget,
                              QApplication,
                              QPushButton,
                              QGroupBox,
+                             QFormLayout,
+                             QMessageBox
                              )
 
 
@@ -19,7 +23,10 @@ class Measurement(QWidget):
     def __init__(self):
         """initializes the window"""
         super().__init__()
-
+        self.setWindowFlags(
+            QtCore.Qt.WindowType.WindowMinimizeButtonHint |
+            QtCore.Qt.WindowType.WindowMaximizeButtonHint
+        )
         self.setWindowTitle("IoT Health Checker")
         self.setGeometry(0, 0, 1200, 800)
         self.setMinimumWidth(400)
@@ -44,9 +51,27 @@ class Measurement(QWidget):
         second_group_h = QGroupBox('Temperature Bar')
         temp_layout.addWidget(second_group_h)
 
-        # summary section
-        summary = QGroupBox('Summary')
-        temp_layout.addWidget(summary)
+        # user info section
+        summary_v = QVBoxLayout()
+        summary_box = QGroupBox('User Info')
+        summary_v.addWidget(summary_box)
+        temp_layout.addLayout(summary_v)
+
+        #info
+        form_lay = QVBoxLayout()
+        self.form = QFormLayout()
+        self.form.addRow("Name:   ", summary.fullname)
+        self.form.addRow("Date of birth:   ", summary.dob)
+        self.form.addRow("Gender:   ", summary.gender)
+        self.form.addRow("Weight:   ", summary.weight)
+        form_lay.addLayout(self.form)
+        summary_box.setLayout(form_lay)
+
+        # summary
+        info = QGroupBox('Summary')
+        sum_layout = QVBoxLayout()
+        sum_layout.addWidget(info)
+        summary_v.addLayout(sum_layout)
 
         #top graph (dummy data)
         self.canvas_one = GraphCanvas(self, width=4, height=3, dpi=100)
@@ -92,19 +117,16 @@ class Measurement(QWidget):
         self.move(geo.topLeft())
 
         #end app
-        self.next_button.clicked.connect(self.end_measurement)
+        self.next_button.clicked.connect(self.question_exit)
 
         #dummy data clear and redraw
         n_data = 50
         self.xdata = list(range(n_data))
         self.ydata = [random.randint(0, 10) for i in range(n_data)]
-        self.update_graph_plot()
-
         self.timer = QtCore.QTimer()
-        self.timer.setInterval(100)
+        self.timer.setInterval(500)
         self.timer.timeout.connect(self.update_graph_plot)
         self.timer.timeout.connect(self.update_bar_chart)
-        self.timer.start()
 
         #dummy
         self.temperature = 0
@@ -118,11 +140,11 @@ class Measurement(QWidget):
         self.canvas_one.draw()
 
         # canvas_two
-        # self.ydata = self.ydata[1:] + [random.randint(0, 10)]
-        # self.canvas_two.axes.cla()
-        # self.canvas_two.axes.plot(self.xdata, self.ydata, 'r')
-        # self.canvas_two.axes.grid(True)
-        # self.canvas_two.draw()
+        self.ydata = self.ydata[1:] + [random.randint(0, 10)]
+        self.canvas_two.axes.cla()
+        self.canvas_two.axes.plot(self.xdata, self.ydata, 'r')
+        self.canvas_two.axes.grid(True)
+        self.canvas_two.draw()
 
     def update_bar_chart(self):
         """updates the temperature bar"""
@@ -130,6 +152,22 @@ class Measurement(QWidget):
         self.temperature += new_value
         self.temp_canvas.update_height(self.temperature)
 
+    def question_exit(self):
+        """initiates dialog to ask exit confirmation"""
+        answer = QMessageBox.question(
+            self,
+            'Confirmation',
+            'Do you want to end measurement?',
+            QMessageBox.StandardButton.Yes |
+            QMessageBox.StandardButton.No
+        )
+        if answer == QMessageBox.StandardButton.Yes:
+            self.end_measurement()
+        else:
+            QMessageBox.StandardButton.Abort
+        return
+
     def end_measurement(self):
         """ends app"""
-        self.close()
+        self.destroy()
+        sys.exit()
