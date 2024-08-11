@@ -1,1 +1,1 @@
-# IoT-Health-Checker Desktop App
+# Vitals-box Desktop App
