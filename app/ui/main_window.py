@@ -27,7 +27,7 @@ class MainWindow(QMainWindow):
 
         # Font styling
         self.head_label = QLabel("IoT-health Checker")
-        self.subhead_label = QLabel("Welcome to the IoT-health checker app.\n"
+        self.subhead_label = QLabel("Welcome to the Vitals-box app.\n"
                                "Click Start to Proceed")
 
 
